@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DragonMove : MonoBehaviour
 {
-    public Vector2 Move(Direction direction)
+    public float speed;
+    public Vector2 GetMove(Direction direction)
     {
-        Debug.Log(direction);
         return direction switch
         {
-            Direction.Left => Vector2.left,
-            Direction.Right => Vector2.right,
+            Direction.Left => Vector2.left * speed * Time.deltaTime * 300f,
+            Direction.Right => Vector2.right * speed * Time.deltaTime * 300f,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

@@ -1,46 +1,23 @@
-using Entity;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
-    public Bullet Bullet { get; set; }
-
-    public int MaxRange { get; set; }
-
-    // Start is called before the first frame update
-    private void Start()
+    private ObjectPool _objectPool;
+    void Start()
     {
+        _objectPool = GetComponent<ObjectPool>();
     }
-
-    // Update is called once per frame
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        DestroyAfterRange();
+        if (collision.CompareTag("Enemy"))
+        {
+            _objectPool.ReturnObject(gameObject);
+        }
     }
-
-    private void DestroyAfterRange()
+    private void OnBecameInvisible()
     {
-        var currentPos = gameObject.transform.position;
-        if (Bullet == null)
-        {
-            return;
-        }
-        var initPos = Bullet.InitialPosition;
-        switch (Bullet.Direction)
-        {
-            case Direction.Left:
-                if (initPos.x - MaxRange >= currentPos.x)
-                {
-                    //Destroy(gameObject);
-                }
-
-                break;
-            case Direction.Right:
-                if (initPos.x + MaxRange <= currentPos.x)
-                {
-                    //Destroy(gameObject);
-                }
-                break;
-        }
+        _objectPool.ReturnObject(gameObject);
     }
 }
