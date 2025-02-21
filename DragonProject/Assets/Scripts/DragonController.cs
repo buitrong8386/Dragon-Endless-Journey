@@ -1,6 +1,7 @@
 using Entity;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class DragonController : MonoBehaviour
 {
@@ -28,42 +29,49 @@ public class DragonController : MonoBehaviour
 
     void Update()
     {
-        HandleMove();
+        HandleMovementAndJump();
         HandleFire();
     }
-    private void HandleMove()
+    private void HandleMovementAndJump()
     {
+        Vector2 currentVelocity = _rigidbody2D.velocity;
+        bool isMoving = false;
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
-
-            _rigidbody2D.velocity = _dragonMove.GetMove(Direction.Left);
+            Vector2 moveVelocity = _dragonMove.GetMove(Direction.Left);
+            currentVelocity.x = moveVelocity.x;
             _dragon.Direction = Direction.Left;
             transform.localScale = new Vector3(-1, 1, 1);
-            _animator.SetBool("Move", true);
+            isMoving = true;
         }
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
-
-            _rigidbody2D.velocity = _dragonMove.GetMove(Direction.Right);
+            Vector2 moveVelocity = _dragonMove.GetMove(Direction.Right);
+            currentVelocity.x = moveVelocity.x;
             _dragon.Direction = Direction.Right;
             transform.localScale = new Vector3(1, 1, 1);
-            _animator.SetBool("Move", true);
-        }
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            _rigidbody2D.velocity = _dragonMove.GetMove(Direction.Jump);
-            _dragon.Direction = Direction.Jump; 
-            _animator.SetBool("Move", false);
+            isMoving = true;
         }
         else
         {
-            _rigidbody2D.velocity = new Vector2(0, _rigidbody2D.velocity.y);
-            _animator.SetBool("Move", false);
+            currentVelocity.x = 0;
         }
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        {
+            Vector2 jumpVelocity = _dragonMove.GetMove(Direction.Jump);
+            currentVelocity.y = jumpVelocity.y;
+            _animator.SetBool("Jump", true);
+        }
+        else
+        {
+            _animator.SetBool("Jump", false);
+        }
+        _animator.SetBool("Move", isMoving);
+        _rigidbody2D.velocity = currentVelocity;
     }
     private void HandleFire()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             _dragonFire.Fire(_dragon.Direction);
         }

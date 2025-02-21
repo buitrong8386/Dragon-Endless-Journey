@@ -25,7 +25,10 @@ public class ObjectPool : MonoBehaviour
     }
     public void ReturnObject(GameObject obj)
     {
-        obj.SetActive(false);
-        _gameObjects.Enqueue(obj);
+        if (obj != null)
+        {
+            obj.SetActive(false);
+            _gameObjects.Enqueue(obj);
+        }
     }
 }

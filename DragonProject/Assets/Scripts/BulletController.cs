@@ -11,6 +11,7 @@ public class BulletController : MonoBehaviour
     }
     private void OnBecameInvisible()
     {
+
         FindObjectOfType<ObjectPool>().ReturnObject(gameObject);
     }
 }
