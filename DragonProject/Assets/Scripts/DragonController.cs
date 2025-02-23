@@ -1,7 +1,6 @@
 using Entity;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class DragonController : MonoBehaviour
 {
@@ -55,16 +54,6 @@ public class DragonController : MonoBehaviour
         else
         {
             currentVelocity.x = 0;
-        }
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            Vector2 jumpVelocity = _dragonMove.GetMove(Direction.Jump);
-            currentVelocity.y = jumpVelocity.y;
-            _animator.SetBool("Jump", true);
-        }
-        else
-        {
-            _animator.SetBool("Jump", false);
         }
         _animator.SetBool("Move", isMoving);
         _rigidbody2D.velocity = currentVelocity;
