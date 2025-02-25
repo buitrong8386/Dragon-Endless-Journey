@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:DragonProject/Assets/Scripts/BombController.cs.meta
+guid: ede8923c68aa1a540bedd978310e34f4
+========
+guid: f0bb94005629c3842ac91bd09b3c2aef
+>>>>>>>> 5438569a7842c4571d13fb37e63f4d6817a06ee8:DragonProject/Assets/Scripts/Map/Scripts/GroundManager.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

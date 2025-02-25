@@ -9,16 +9,22 @@ public class PlaneBomb : MonoBehaviour
     [SerializeField] private float bulletSpeed;
     private float lastFire;
     public float delay;
+    private GameObject player;
     void Start()
     {
         _objectPool = GetComponent<ObjectPool>();
         bulletSpeed = 10f;
         playerTransform = GameObject.FindGameObjectWithTag(TagContants.PLAYER).transform;
         lastFire = 0f;
+        player = GameObject.FindGameObjectWithTag(TagContants.PLAYER);
     }
 
     public void Bomb()
     {
+        if (player == null)
+        {
+            return;
+        }
         if (lastFire + delay > Time.time)
         {
             return;

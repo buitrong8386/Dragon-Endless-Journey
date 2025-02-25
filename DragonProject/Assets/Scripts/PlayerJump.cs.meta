@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:DragonProject/Assets/Scripts/PlayerJump.cs.meta
 guid: 8c06bf16f211902428268dc9f80c96ea
+========
+guid: 7ccfa8d6747fbeb4eb90caa79b594f9e
+>>>>>>>> 5438569a7842c4571d13fb37e63f4d6817a06ee8:DragonProject/Assets/Scripts/Map/Scripts/Ground.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
