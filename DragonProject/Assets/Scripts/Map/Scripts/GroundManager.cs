@@ -9,7 +9,9 @@ public class GroundManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> groundList;
     [SerializeField] private List<GameObject> activeGroundList;
-    public float v = 10f;
+
+
+    
     private GameObject tempObject;
     private Vector3 tempPosition;
 
@@ -18,6 +20,12 @@ public class GroundManager : MonoBehaviour
     private float screenR;
     private float cameraWidth;
 
+    public Vector3 movingVector = new Vector3(5f, 0, 0);
+    //
+    [SerializeField] private List<Sprite> obImage;
+    [SerializeField] private GameObject ob;
+
+    //
     void Awake()
     {
         cameraWidth = Camera.main.orthographicSize * 2 * Camera.main.aspect; //tính chiều dài camera
@@ -31,7 +39,9 @@ public class GroundManager : MonoBehaviour
     void FixedUpdate()
     {
         MoveGround();
+        
         SpawnGround();
+        
         RemoveOffScreenGround();
     }
 
@@ -40,9 +50,10 @@ public class GroundManager : MonoBehaviour
         foreach (GameObject ground in activeGroundList)
         {
             if( ground != null)
-                ground.transform.position -= new Vector3(5f, 0, 0) * Time.deltaTime;
+                ground.transform.position -= movingVector * Time.deltaTime;
         }
     }
+
     void SpawnGround()
     {
         if (groundList.Count == 0)
@@ -53,10 +64,10 @@ public class GroundManager : MonoBehaviour
         
         if (activeGroundList.Count == 0)
         {
-        tempObject = groundList[Random.Range(0, groundList.Count)];
+            tempObject = groundList[Random.Range(0, groundList.Count)];
             tempPosition = Vector3.zero;
-        GameObject newGrid = Instantiate(tempObject, tempPosition, Quaternion.identity);
-        activeGroundList.Add(newGrid);
+            GameObject newGround = Instantiate(tempObject, tempPosition, Quaternion.identity);
+            activeGroundList.Add(newGround);
         }
         else
         {
@@ -65,12 +76,31 @@ public class GroundManager : MonoBehaviour
             if (lastGround.transform.position.x + lastGround.GetComponent<BoxCollider2D>().size.x / 2 <= screenR)
             {
                 tempObject = groundList[Random.Range(0, groundList.Count)];
-                tempPosition = new Vector3(tempObject.GetComponent<BoxCollider2D>().size.x / 2 + screenR + distanceBetweenGrounds, Random.Range(-3, 3), 0);
-                GameObject newGrid = Instantiate(tempObject, tempPosition, Quaternion.identity);
-                activeGroundList.Add(newGrid);
+                float tmpHalfPositionX = tempObject.GetComponent<BoxCollider2D>().size.x / 2; //lấy nửa kích thước theo chiều x của prefab
+                
+                float positionY = RandomPositionY(lastGround);
+                tempPosition = new Vector3(tmpHalfPositionX + screenR + distanceBetweenGrounds ,positionY , 0);
+                GameObject newGround = Instantiate(tempObject, tempPosition, Quaternion.identity);
+                activeGroundList.Add(newGround);
+                //
+                int random = Random.Range(0, 4);
+                for (int i = 0; i < random; i++)
+                {
+                    Instantiate(ob, new Vector3(tmpHalfPositionX + screenR + distanceBetweenGrounds + Random.Range(-tmpHalfPositionX, tmpHalfPositionX), positionY - 2.5f), Quaternion.identity);
+                }                
             }
         }
 
+    }
+
+    float RandomPositionY(GameObject gameObject)
+    {
+        float randomY;
+        do       
+            randomY = Random.Range(0f, 5.0f);   
+        while (Mathf.Abs(randomY - gameObject.transform.position.y) > 4);
+
+        return randomY;
     }
 
     void RemoveOffScreenGround()
