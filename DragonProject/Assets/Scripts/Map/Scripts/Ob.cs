@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using Contants;
 using UnityEngine;
-using UnityEngine.Device;
+
 
 public class Ob : MonoBehaviour
 {
     [SerializeField] private GroundManager groundManagerScript;
-    // Start is called before the first frame update
+
     void Start()
     {
-        groundManagerScript = GameObject.Find("GroundManager").GetComponent<GroundManager>();
+        groundManagerScript = GameObject.Find(TagContants.GROUND_MANAGER).GetComponent<GroundManager>();
     }
 
     // Update is called once per frame

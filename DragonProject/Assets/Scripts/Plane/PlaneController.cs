@@ -12,11 +12,12 @@ public class PlaneController : MonoBehaviour
     private bool movingDown = true; // Trạng thái đang di chuyển xuống
     private bool waiting = false; // Kiểm tra xem có đang chờ hay không
     private float waitTimer = 0f; // Bộ đếm thời gian chờ
-    //private PlaneBomb planeBomb;
+    private PlaneBomb planeBomb;
     void Start()
     {
         startPosition = transform.position; // Lấy vị trí ban đầu
         endPosition = startPosition + Vector2.down * verticalDistance; 
+        planeBomb = GetComponent<PlaneBomb>();
     }
     private void SetNewRandomWaitTime()
     {
@@ -28,7 +29,7 @@ public class PlaneController : MonoBehaviour
     {
         if ((Vector2)transform.position == endPosition)
         {
-            // planeBomb.Bomb();
+            planeBomb.Bomb();
         }
         if (waiting)
         {
