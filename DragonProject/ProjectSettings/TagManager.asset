@@ -7,6 +7,9 @@ TagManager:
   - Enemy
   - BackGround
   - Trap
+  - GroundManager
+  - HP
+  - Security
   layers:
   - Default
   - TransparentFX

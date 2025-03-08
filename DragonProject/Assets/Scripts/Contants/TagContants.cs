@@ -7,5 +7,7 @@ namespace Contants
         public const string BACKGROUND = "BackGround";
         public const string GROUND_MANAGER = "GroundManager";
         public const string TRAP = "Trap";
+        public const string HP = "HP";
+        public const string SECURITY = "Security";
     }
 }

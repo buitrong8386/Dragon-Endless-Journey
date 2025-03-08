@@ -5,7 +5,7 @@ public class PlayerJump : MonoBehaviour
 {
     public float initialJumpForce;
     private Rigidbody2D rb;
-    private bool canJump = false; // Biến kiểm tra có thể nhảy hay không
+    private bool canJump = false; 
 
     private void Start()
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class GroundManager : MonoBehaviour
     public Vector3 movingVector = new Vector3(5f, 0, 0);
     [SerializeField] private List<Sprite> obImage;
     [SerializeField] private GameObject ob;
+    public List<GameObject> items;
 
     void Awake()
     {
@@ -65,17 +67,28 @@ public class GroundManager : MonoBehaviour
                 tempObject = groundList[Random.Range(0, groundList.Count)];
                 float tmpHalfPositionX = tempObject.GetComponent<BoxCollider2D>().size.x / 2;
                 float positionY = RandomPositionY(lastGround);
-                tempPosition = new Vector3(tmpHalfPositionX + screenR + Random.Range(distanceBetweenGrounds, 5), positionY, 0);
+                float screenSlot = Random.Range(distanceBetweenGrounds, 5);
+                tempPosition = new Vector3(tmpHalfPositionX + screenR + screenSlot, positionY, 0);
                 GameObject newGround = Instantiate(tempObject, tempPosition, Quaternion.identity);
-                activeGroundList.Add(newGround);               
-                int random = Random.Range(0, 4);
-                for (int i = 0; i < random; i++)
-                {
-                    ob.GetComponent<SpriteRenderer>().sprite = obImage[Random.Range(0, obImage.Count)];
-                    Instantiate(ob, new Vector3(tmpHalfPositionX + screenR + distanceBetweenGrounds + Random.Range(-tmpHalfPositionX, tmpHalfPositionX), positionY - 2.5f), Quaternion.identity);
-                }
+                activeGroundList.Add(newGround);
+                //Debug.Log(tmpHalfPositionX + screenR + distanceBetweenGrounds + Random.Range(-tmpHalfPositionX - screenSlot, tmpHalfPositionX));
+               ImmunityTimer(screenSlot, positionY);
+
+                // int random = Random.Range(0, 4);
+                // for (int i = 0; i < random; i++)
+                // {
+                //     ob.GetComponent<SpriteRenderer>().sprite = obImage[Random.Range(0, obImage.Count)];
+                //     Instantiate(ob, new Vector3(tmpHalfPositionX + screenR + screenSlot + Random.Range(-tmpHalfPositionX, tmpHalfPositionX), positionY - 2.5f), Quaternion.identity);
+                // }
+
             }
         }
+    }
+    private void ImmunityTimer(float screenSlot, float positionY)
+    {
+        var item = items[Random.Range(0, items.Count)];
+        float tmpHalfPositionX = tempObject.GetComponent<BoxCollider2D>().size.x / 2;
+        Instantiate(item, new Vector3(tmpHalfPositionX + screenR + screenSlot + Random.Range(-tmpHalfPositionX - screenSlot, tmpHalfPositionX), positionY + 1f), Quaternion.identity);
     }
 
     private float RandomPositionY(GameObject gameObject)
